@@ -7,12 +7,19 @@
 //
 
 #import "AppDelegate.h"
+#import "RHchess_board.h"
 
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Insert code here to initialize your application
+    NSView *superview = [_window contentView];
+    [_window setStyleMask:[_window styleMask] & ~NSResizableWindowMask];
+    
+    RHchess_board *board = [RHchess_board alloc];
+    [board build_board:superview];
+    
 }
 
 @end
