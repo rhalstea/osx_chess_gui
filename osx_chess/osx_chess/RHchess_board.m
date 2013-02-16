@@ -35,7 +35,8 @@
 
 @implementation RHchess_board
 
-// Object Member Fucntions
+// Object Member Variables
+NSButton *board[8][8];
 float _tile_width       = 64.0;
 float _tile_height      = 64.0;
 float _border_bottom    = 32.0;
@@ -52,8 +53,13 @@ float _border_left      = 32.0;
                 [tile.cell setBackgroundColor:[NSColor colorWithCalibratedRed:0.96f green:0.93f blue:0.85f alpha:1.0f]];
             else
                 [tile.cell setBackgroundColor:[NSColor colorWithCalibratedRed:0.1f green:0.6f blue:0.0f alpha:1.0f]];
+            board[row][col] = tile;
         }
     }
+}
+
+- (void)set_tile_image:(board_column) col :(int) row :(NSImage *)image {
+    board[row-1][col].image = image;
 }
 
 // Modifier functions

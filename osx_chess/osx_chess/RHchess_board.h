@@ -33,9 +33,13 @@
 
 #import <Foundation/Foundation.h>
 
+enum {A=0, B=1, C=2, D=3, E=4, F=5, G=6, H=7};
+typedef int board_column;
+
 @interface RHchess_board : NSObject
 
 - (void)build_board:(NSView *)superview;
+- (void)set_tile_image:(board_column) col :(int) row :(NSImage *)image;
 
 - (void)set_tile_width:(float)width;
 - (void)set_tile_height:(float)height;
@@ -44,7 +48,5 @@
 
 - (float)get_board_width;
 - (float)get_board_height;
-
-- (NSButton *)add_board_tile:(NSView *)superview :(float)x :(float)y :(float)width :(float)height;
 
 @end

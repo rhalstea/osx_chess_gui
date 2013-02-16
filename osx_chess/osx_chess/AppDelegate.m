@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "RHchess_board.h"
+#import "RHchess_set.h"
 
 @implementation AppDelegate
 
@@ -19,7 +20,7 @@
     
     RHchess_board *board = [RHchess_board alloc];
     [board build_board:superview];
-    
+    [board set_tile_image:A :2 :[[RHchess_set alloc] get_chess_piece:PAWN :WHITE]];
 }
 
 @end
