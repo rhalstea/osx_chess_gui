@@ -36,7 +36,13 @@
 enum {A=0, B=1, C=2, D=3, E=4, F=5, G=6, H=7};
 typedef int board_column;
 
-@interface RHchess_board : NSObject
+@interface RHchess_board : NSObject {
+    NSButton *board[8][8];
+    float _tile_width;
+    float _tile_height;
+    float _border_bottom;
+    float _border_left;
+}
 
 - (void)build_board:(NSView *)superview;
 - (void)set_tile_image:(board_column) col :(int) row :(NSImage *)image;

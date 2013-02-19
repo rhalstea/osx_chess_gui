@@ -35,12 +35,14 @@
 
 @implementation RHchess_board
 
-// Object Member Variables
-NSButton *board[8][8];
-float _tile_width       = 64.0;
-float _tile_height      = 64.0;
-float _border_bottom    = 32.0;
-float _border_left      = 32.0;
+- (id) init {
+    _tile_width       = 64.0;
+    _tile_height      = 64.0;
+    _border_bottom    = 32.0;
+    _border_left      = 32.0;
+    
+    return self;
+}
 
 - (void)build_board:(NSView *)superview {
     
@@ -68,8 +70,8 @@ float _border_left      = 32.0;
 - (void)set_border_bottom:(float)offset { _border_bottom = offset; }
 - (void)set_border_left:(float)offset   { _border_left = offset; }
 
-- (float)board_width    { return (2 * _border_left) + (8.0f * _tile_width); }
-- (float)board_height   { return (2 * _border_bottom) + (8.0f * _tile_height); }
+- (float)get_board_width    { return (2 * _border_left) + (8.0f * _tile_width); }
+- (float)get_board_height   { return (2 * _border_bottom) + (8.0f * _tile_height); }
 
 // Helper Functions
 - (NSButton *)add_board_tile:(NSView *)superview :(float)x :(float)y :(float)width :(float)height {

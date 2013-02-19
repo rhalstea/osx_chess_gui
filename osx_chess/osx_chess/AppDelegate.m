@@ -7,8 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "RHchess_board.h"
-#import "RHchess_set.h"
 
 @implementation AppDelegate
 
@@ -18,9 +16,9 @@
     NSView *superview = [_window contentView];
     [_window setStyleMask:[_window styleMask] & ~NSResizableWindowMask];
     
-    RHchess_board *board = [RHchess_board alloc];
-    [board build_board:superview];
-    [board set_tile_image:A :2 :[[RHchess_set alloc] get_chess_piece:PAWN :WHITE]];
+    _board = [[RHchess_board alloc] init];
+    
+    [_board build_board:superview];
 }
 
 @end
