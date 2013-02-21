@@ -36,52 +36,16 @@
 @implementation RHchess_board
 
 - (id) init {
-    _tile_width       = 64.0;
-    _tile_height      = 64.0;
-    _border_bottom    = 32.0;
-    _border_left      = 32.0;
-    
+    _white_tile = [NSColor colorWithCalibratedRed:0.96f green:0.93f blue:0.85f alpha:1.0f];
+    _black_tile = [NSColor colorWithCalibratedRed:0.10f green:0.60f blue:0.00f alpha:1.0f];
     return self;
 }
 
-- (void)build_board:(NSView *)superview {
-    
-    for (int row = 0; row < 8; ++row) {
-        for (int col = 0; col < 8; ++col) {
-            float x = _border_left + _tile_width * col;
-            float y = _border_bottom + _tile_height * row;
-            NSButton *tile = [self add_board_tile:superview :x :y :_tile_width :_tile_height];
-            if ( (col + (row%2)) % 2 == 1)
-                [tile.cell setBackgroundColor:[NSColor colorWithCalibratedRed:0.96f green:0.93f blue:0.85f alpha:1.0f]];
-            else
-                [tile.cell setBackgroundColor:[NSColor colorWithCalibratedRed:0.1f green:0.6f blue:0.0f alpha:1.0f]];
-            board[row][col] = tile;
-        }
-    }
-}
-
-- (void)set_tile_image:(board_column) col :(int) row :(NSImage *)image {
-    board[row-1][col].image = image;
-}
-
-// Modifier functions
-- (void)set_tile_width:(float)width     { _tile_width = width; }
-- (void)set_tile_height:(float)height   { _tile_height = height; }
-- (void)set_border_bottom:(float)offset { _border_bottom = offset; }
-- (void)set_border_left:(float)offset   { _border_left = offset; }
-
-- (float)get_board_width    { return (2 * _border_left) + (8.0f * _tile_width); }
-- (float)get_board_height   { return (2 * _border_bottom) + (8.0f * _tile_height); }
-
-// Helper Functions
-- (NSButton *)add_board_tile:(NSView *)superview :(float)x :(float)y :(float)width :(float)height {
-    NSRect frame = NSMakeRect(x, y, width, height);
-    NSButton *ret = [[NSButton alloc] initWithFrame:frame];
-    [ret setTitle:@""];
-    [ret setBordered:false];
-    [superview addSubview:ret];
-
-    return ret;
+- (NSColor *)get_tile_color:(int)row :(int)col {
+    if ((col + (row % 2)) % 2 == 0)
+        return _black_tile;
+    else
+        return _white_tile;
 }
 
 @end
