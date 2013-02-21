@@ -35,14 +35,17 @@
 @implementation RHchess_game
 
 - (id)create_game:(NSView *) parent :(RHchess_board *) game_board :(RHchess_set *) game_set {
-    _parent     = parent;
-    _game_board = game_board;
-    _game_set   = game_set;
+    _parent             = parent;
+    _game_board         = game_board;
+    _game_set           = game_set;
     
-    _tile_width       = 64.0;
-    _tile_height      = 64.0;
-    _border_bottom    = 32.0;
-    _border_left      = 32.0;
+    _tile_width         = 64.0;
+    _tile_height        = 64.0;
+    _border_bottom      = 32.0;
+    _border_left        = 32.0;
+    
+    _piece_source       = NULL;
+    _piece_destination  = NULL;
     
     [self create_board_tiles];
     
@@ -59,25 +62,28 @@
 - (float)get_board_width    { return (2 * _border_left) + (8.0f * _tile_width); }
 - (float)get_board_height   { return (2 * _border_bottom) + (8.0f * _tile_height); }
 
-- (void)create_board_tiles {
-    
-    for (int row = 0; row < 8; ++row) {
-        for (int col = 0; col < 8; ++col) {
-            float x = _border_left   + _tile_width  * col;
-            float y = _border_bottom + _tile_height * row;
-            
-            _game_buttons[row][col] = [self create_tile:x :y :_tile_width :_tile_height];
-            [_game_buttons[row][col] setTitle:[NSString stringWithFormat:@"%d_%d", row, col]];
-        }
-    }
-}
 
+// Helper functions
 - (void)button_event:(id) sender {
+    if (_piece_source == NULL) {
+        _piece_source = sender;
+        [_piece_source setBordered:TRUE];
+        return;
+    }
+    
+    NSButton *source = _piece_source;
+    
+    [_piece_source setBordered:FALSE];
+    _piece_source = NULL;
+    
+    if (source == sender) {
+        return;
+    }
+    
     NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText:[NSString stringWithFormat:@"I Was Clicked: %@", [sender title]]];
+    [alert setMessageText:[NSString stringWithFormat:@"Going from %@ to %@", [source title], [sender title]]];
     [alert runModal];
 }
-
 
 - (NSButton *)create_tile:(float) x :(float) y :(float) width :(float) height {
     NSRect frame = NSMakeRect(x, y, width, height);
@@ -93,6 +99,20 @@
     [_parent addSubview:ret];
     
     return ret;
+}
+
+- (void)create_board_tiles {
+    
+    for (int row = 0; row < 8; ++row) {
+        for (int col = 0; col < 8; ++col) {
+            float x = _border_left   + _tile_width  * col;
+            float y = _border_bottom + _tile_height * row;
+            
+            _game_buttons[row][col] = [self create_tile:x :y :_tile_width :_tile_height];
+            [_game_buttons[row][col].cell setBackgroundColor:[_game_board get_tile_color:row :col]];
+            [_game_buttons[row][col] setTitle:[NSString stringWithFormat:@"%d_%d", row, col]];
+        }
+    }
 }
 
 @end

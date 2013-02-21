@@ -51,22 +51,19 @@
     float           _tile_height;
     float           _border_bottom;
     float           _border_left;
-
-    NSButton *board[8][8];
 }
 
 - (id)create_game:(NSView *) parent :(RHchess_board *) game_board :(RHchess_set *) game_set;
-- (void)create_board_tiles;
-- (void)build_board:(NSView *)superview;
 - (void)button_event:(id) sender;
 
+// Modifier functions
 - (void)set_tile_width:(float)width;
 - (void)set_tile_height:(float)height;
 - (void)set_border_bottom:(float)offset;
 - (void)set_border_left:(float)offset;
 
+// Accessor functions
 - (float)get_board_width;
 - (float)get_board_height;
-
 
 @end
