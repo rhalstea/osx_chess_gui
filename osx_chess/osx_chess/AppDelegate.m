@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "RHchess_board.h"
+#import "RHchess_set.h"
 
 @implementation AppDelegate
 
@@ -16,9 +18,12 @@
     NSView *superview = [_window contentView];
     [_window setStyleMask:[_window styleMask] & ~NSResizableWindowMask];
     
-    _board = [[RHchess_board alloc] init];
+    RHchess_board *game_board = [[RHchess_board alloc] init];
+    RHchess_set   *game_set   = [RHchess_set alloc];
     
-    [_board build_board:superview];
+    //RHchess_board *board = [RHchess_board alloc];
+    _game = [[RHchess_game alloc] create_game:superview :game_board :game_set];
+    
 }
 
 @end

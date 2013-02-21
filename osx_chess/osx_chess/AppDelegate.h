@@ -7,8 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "RHchess_game.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+
+@interface AppDelegate : NSObject <NSApplicationDelegate> {
+    RHchess_game    *_game;
+}
 
 @property (assign) IBOutlet NSWindow *window;
 
