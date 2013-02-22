@@ -52,6 +52,34 @@
     return self;
 }
 
+- (void)setup_standard_game {
+    // White's back rank
+    [_game_buttons[A][0] setImage:[_game_set get_chess_piece:ROOK :WHITE]];
+    [_game_buttons[B][0] setImage:[_game_set get_chess_piece:KNIGHT :WHITE]];
+    [_game_buttons[C][0] setImage:[_game_set get_chess_piece:BISHOP :WHITE]];
+    [_game_buttons[D][0] setImage:[_game_set get_chess_piece:QUEEN :WHITE]];
+    [_game_buttons[E][0] setImage:[_game_set get_chess_piece:KING :WHITE]];
+    [_game_buttons[F][0] setImage:[_game_set get_chess_piece:BISHOP :WHITE]];
+    [_game_buttons[G][0] setImage:[_game_set get_chess_piece:KNIGHT :WHITE]];
+    [_game_buttons[H][0] setImage:[_game_set get_chess_piece:ROOK :WHITE]];
+   
+    // Black's back rank
+    [_game_buttons[A][7] setImage:[_game_set get_chess_piece:ROOK :BLACK]];
+    [_game_buttons[B][7] setImage:[_game_set get_chess_piece:KNIGHT :BLACK]];
+    [_game_buttons[C][7] setImage:[_game_set get_chess_piece:BISHOP :BLACK]];
+    [_game_buttons[D][7] setImage:[_game_set get_chess_piece:QUEEN :BLACK]];
+    [_game_buttons[E][7] setImage:[_game_set get_chess_piece:KING :BLACK]];
+    [_game_buttons[F][7] setImage:[_game_set get_chess_piece:BISHOP :BLACK]];
+    [_game_buttons[G][7] setImage:[_game_set get_chess_piece:KNIGHT :BLACK]];
+    [_game_buttons[H][7] setImage:[_game_set get_chess_piece:ROOK :BLACK]];
+
+    // pawns
+    for (int i = 0; i < 8; ++i) {
+        [_game_buttons[i][1] setImage:[_game_set get_chess_piece:PAWN :WHITE]];
+        [_game_buttons[i][6] setImage:[_game_set get_chess_piece:PAWN :BLACK]];
+    }
+}
+
 // Modifier Functions
 - (void)set_tile_width:(float)width     { _tile_width = width; }
 - (void)set_tile_height:(float)height   { _tile_height = height; }
@@ -80,16 +108,20 @@
         return;
     }
     
+    [sender setImage:[source image]];
+    [source setImage:NULL];
+    /*
     NSAlert *alert = [[NSAlert alloc] init];
     [alert setMessageText:[NSString stringWithFormat:@"Going from %@ to %@", [source title], [sender title]]];
     [alert runModal];
+     */
 }
 
 - (NSButton *)create_tile:(float) x :(float) y :(float) width :(float) height {
     NSRect frame = NSMakeRect(x, y, width, height);
     NSButton *ret = [[NSButton alloc] initWithFrame:frame];
     
-    [ret setTitle:@"aaa"];
+    [ret setTitle:NULL];
     [ret setBordered:false];
     [ret setTarget:self];
     [ret setAction:@selector(button_event:)];
@@ -108,9 +140,8 @@
             float x = _border_left   + _tile_width  * col;
             float y = _border_bottom + _tile_height * row;
             
-            _game_buttons[row][col] = [self create_tile:x :y :_tile_width :_tile_height];
-            [_game_buttons[row][col].cell setBackgroundColor:[_game_board get_tile_color:row :col]];
-            [_game_buttons[row][col] setTitle:[NSString stringWithFormat:@"%d_%d", row, col]];
+            _game_buttons[col][row] = [self create_tile:x :y :_tile_width :_tile_height];
+            [_game_buttons[col][row].cell setBackgroundColor:[_game_board get_tile_color:col :row]];
         }
     }
 }

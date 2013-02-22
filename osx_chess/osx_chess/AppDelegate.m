@@ -23,7 +23,7 @@
     
     //RHchess_board *board = [RHchess_board alloc];
     _game = [[RHchess_game alloc] create_game:superview :game_board :game_set];
-    
+    [_game setup_standard_game];
 }
 
 @end

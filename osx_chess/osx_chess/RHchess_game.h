@@ -54,7 +54,7 @@
 }
 
 - (id)create_game:(NSView *) parent :(RHchess_board *) game_board :(RHchess_set *) game_set;
-- (void)button_event:(id) sender;
+- (void)setup_standard_game;
 
 // Modifier functions
 - (void)set_tile_width:(float)width;
