@@ -55,6 +55,7 @@
 
 - (id)create_game:(NSView *) parent :(RHchess_board *) game_board :(RHchess_set *) game_set;
 - (void)setup_standard_game;
+- (void)draw_board;
 
 // Modifier functions
 - (void)set_tile_width:(float)width;

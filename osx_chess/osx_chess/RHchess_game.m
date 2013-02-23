@@ -32,6 +32,7 @@
  */
 #import "RHchess_game.h"
 
+
 @implementation RHchess_game
 
 - (id)create_game:(NSView *) parent :(RHchess_board *) game_board :(RHchess_set *) game_set {
@@ -53,31 +54,19 @@
 }
 
 - (void)setup_standard_game {
-    // White's back rank
-    [_game_buttons[A][0] setImage:[_game_set get_chess_piece:ROOK :WHITE]];
-    [_game_buttons[B][0] setImage:[_game_set get_chess_piece:KNIGHT :WHITE]];
-    [_game_buttons[C][0] setImage:[_game_set get_chess_piece:BISHOP :WHITE]];
-    [_game_buttons[D][0] setImage:[_game_set get_chess_piece:QUEEN :WHITE]];
-    [_game_buttons[E][0] setImage:[_game_set get_chess_piece:KING :WHITE]];
-    [_game_buttons[F][0] setImage:[_game_set get_chess_piece:BISHOP :WHITE]];
-    [_game_buttons[G][0] setImage:[_game_set get_chess_piece:KNIGHT :WHITE]];
-    [_game_buttons[H][0] setImage:[_game_set get_chess_piece:ROOK :WHITE]];
-   
-    // Black's back rank
-    [_game_buttons[A][7] setImage:[_game_set get_chess_piece:ROOK :BLACK]];
-    [_game_buttons[B][7] setImage:[_game_set get_chess_piece:KNIGHT :BLACK]];
-    [_game_buttons[C][7] setImage:[_game_set get_chess_piece:BISHOP :BLACK]];
-    [_game_buttons[D][7] setImage:[_game_set get_chess_piece:QUEEN :BLACK]];
-    [_game_buttons[E][7] setImage:[_game_set get_chess_piece:KING :BLACK]];
-    [_game_buttons[F][7] setImage:[_game_set get_chess_piece:BISHOP :BLACK]];
-    [_game_buttons[G][7] setImage:[_game_set get_chess_piece:KNIGHT :BLACK]];
-    [_game_buttons[H][7] setImage:[_game_set get_chess_piece:ROOK :BLACK]];
+    [_game_board setup_standard_game];
+    [self draw_board];
+}
 
-    // pawns
-    for (int i = 0; i < 8; ++i) {
-        [_game_buttons[i][1] setImage:[_game_set get_chess_piece:PAWN :WHITE]];
-        [_game_buttons[i][6] setImage:[_game_set get_chess_piece:PAWN :BLACK]];
-    }
+- (void)draw_board {
+    for (int col = 0; col < 8; ++col)
+        for (int row = 0; row < 8; ++row) {
+            RHboard_tile *tile = [_game_board get_board_tile:col :row];
+            if (tile == NULL)
+                [_game_buttons[col][row] setImage:NULL];
+            else
+                [_game_buttons[col][row] setImage:[_game_set get_chess_piece:[tile piece] :[tile color]]];
+        }
 }
 
 // Modifier Functions
@@ -110,11 +99,27 @@
     
     [sender setImage:[source image]];
     [source setImage:NULL];
-    /*
-    NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText:[NSString stringWithFormat:@"Going from %@ to %@", [source title], [sender title]]];
-    [alert runModal];
-     */
+    
+    [self draw_board];
+}
+
+- (position) get_coordinates:(NSButton *) source {
+    position ret;
+
+    // FIXME: thier is a better way than brute force
+    for(int row = 0; row < 8; ++row)
+        for (int col = 0; col < 8; ++col)
+            if (source == _game_buttons[col][row]) {
+                ret.col = col;
+                ret.row = row;
+                
+                return ret;
+            }
+    
+    ret.col = -1;
+    ret.row = -1;
+
+    return ret;
 }
 
 - (NSButton *)create_tile:(float) x :(float) y :(float) width :(float) height {

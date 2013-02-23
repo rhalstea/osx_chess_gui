@@ -32,17 +32,41 @@
 */
 
 #import <Foundation/Foundation.h>
+#import "RHchess_set.h"
 
 enum {A=0, B=1, C=2, D=3, E=4, F=5, G=6, H=7};
 typedef int board_column;
 
 
+typedef struct {
+    int col;
+    int row;
+} position;
+
+
+@interface RHboard_tile : NSObject {
+    enum chess_piece _piece;
+    enum piece_color _color;
+}
+- (id)init:(enum chess_piece)piece :(enum piece_color)color;
+- (enum chess_piece)piece;
+- (enum piece_color)color;
+@end
+
 @interface RHchess_board : NSObject {
     NSColor     *_white_tile;
     NSColor     *_black_tile;
+
+    RHboard_tile  *_game_board[8][8];
 }
 
 - (id)init;
-- (NSColor *)get_tile_color:(int)row :(int)col;
+- (void)setup_standard_game;
 
+- (RHboard_tile *)get_board_tile:(int)col :(int)row;
+- (RHboard_tile *)get_board_tile:(position) pos;
+- (NSColor *)get_tile_color:(int)col :(int)row;
+
+- (void)set_board_tile:(RHboard_tile*)tile :(int)col :(int)row;
+- (void)set_board_tile:(RHboard_tile*)tile :(position) pos;
 @end
