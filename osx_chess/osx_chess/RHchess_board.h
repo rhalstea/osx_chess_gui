@@ -44,6 +44,8 @@ typedef struct {
 } position;
 
 
+
+
 @interface RHboard_tile : NSObject {
     chess_piece _piece;
     piece_color _color;
@@ -53,11 +55,21 @@ typedef struct {
 - (piece_color)color;
 @end
 
-@interface RHchess_board : NSObject {
-    NSColor     *_white_tile;
-    NSColor     *_black_tile;
 
-    RHboard_tile  *_game_board[8][8];
+
+
+@interface RHchess_board : NSObject {
+    NSColor         *_white_tile;
+    NSColor         *_black_tile;
+
+    RHboard_tile    *_game_board[8][8];
+    
+    bool            _white_turn;
+    NSString        *_castle_string;
+    NSString        *_en_pessant;
+    int             _half_moves;
+    int             _full_moves;
+    
 }
 
 - (id)init;

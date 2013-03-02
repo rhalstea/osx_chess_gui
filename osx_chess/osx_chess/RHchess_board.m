@@ -47,6 +47,12 @@
 
 @end
 
+
+
+
+
+
+
 @implementation RHchess_board
 
 - (id) init {
@@ -89,6 +95,12 @@
         _game_board[i][1] = [[RHboard_tile alloc] init:PAWN :WHITE];
         _game_board[i][6] = [[RHboard_tile alloc] init:PAWN :BLACK];
     }
+    
+    _white_turn = true;
+    _castle_string = @"KQkq";
+    _en_pessant = @"-";
+    _half_moves = 0;
+    _full_moves = 1;
 }
 
 
@@ -113,7 +125,7 @@
 
 - (NSString *)get_FEN_string {
     NSString *fen_string = @"";
-    
+    NSString *turn = (_white_turn)? @"w":@"b";
     for (int row = 7; row >= 0; --row) {
         int blank_space = 0;
 
@@ -138,7 +150,13 @@
 
     }
     
-    return fen_string;
+    
+    return [NSString stringWithFormat:@"%@ %@ %@ %@ %d %d", fen_string,
+                                                            turn,
+                                                            _castle_string,
+                                                            _en_pessant,
+                                                            _half_moves,
+                                                            _full_moves];
 }
 
 
