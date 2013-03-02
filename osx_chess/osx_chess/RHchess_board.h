@@ -45,12 +45,12 @@ typedef struct {
 
 
 @interface RHboard_tile : NSObject {
-    enum chess_piece _piece;
-    enum piece_color _color;
+    chess_piece _piece;
+    piece_color _color;
 }
-- (id)init:(enum chess_piece)piece :(enum piece_color)color;
-- (enum chess_piece)piece;
-- (enum piece_color)color;
+- (id)init:(chess_piece)piece :(piece_color)color;
+- (chess_piece)piece;
+- (piece_color)color;
 @end
 
 @interface RHchess_board : NSObject {
@@ -66,6 +66,7 @@ typedef struct {
 - (RHboard_tile *)get_board_tile:(int)col :(int)row;
 - (RHboard_tile *)get_board_tile:(position) pos;
 - (NSColor *)get_tile_color:(int)col :(int)row;
+- (NSString *)get_FEN_string;
 
 - (void)set_board_tile:(RHboard_tile*)tile :(int)col :(int)row;
 - (void)set_board_tile:(RHboard_tile*)tile :(position) pos;

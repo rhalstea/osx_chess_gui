@@ -33,11 +33,12 @@
 
 #import <Foundation/Foundation.h>
 
-enum chess_piece {PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING};
-enum piece_color {BLACK, WHITE};
+typedef enum {PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING} chess_piece;
+typedef enum {BLACK, WHITE} piece_color;
 
 @interface RHchess_set : NSObject
 
-- (NSImage *) get_chess_piece:(enum chess_piece) piece :(enum piece_color) color;
+- (NSImage *) get_chess_piece:(chess_piece) piece :(piece_color) color;
++ (NSString *) chess_piece_toString:(chess_piece) piece;
 
 @end

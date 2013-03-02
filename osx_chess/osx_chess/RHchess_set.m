@@ -49,7 +49,7 @@
     return target;
 }
 
-- (NSImage *) get_chess_piece:(enum chess_piece)piece :(enum piece_color)color {
+- (NSImage *) get_chess_piece:(chess_piece)piece :(piece_color)color {
     float x;
     float y;
     
@@ -64,6 +64,26 @@
     else                        y = 47;
     
     return [self get_image:x :y :31 :46];
+}
+
++ (NSString *)chess_piece_toString:(chess_piece)piece {
+    switch (piece) {
+        case PAWN:
+            return @"p";
+        case ROOK:
+            return @"r";
+        case KNIGHT:
+            return @"n";
+        case BISHOP:
+            return @"b";
+        case QUEEN:
+            return @"q";
+        case KING:
+            return @"k";
+            
+        default:
+            return NULL;
+    }
 }
 
 @end

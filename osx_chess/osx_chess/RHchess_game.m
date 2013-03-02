@@ -102,7 +102,11 @@
     
     [_game_board set_board_tile:source_tile :[self get_coordinates:destination]];
     [_game_board set_board_tile:NULL :[self get_coordinates:source]];
-     
+    
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setMessageText:[_game_board get_FEN_string]];
+    [alert runModal];
+    
     [self draw_board];
 }
 

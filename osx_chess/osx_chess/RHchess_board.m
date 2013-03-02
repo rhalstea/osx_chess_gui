@@ -35,15 +35,15 @@
 
 @implementation RHboard_tile
 
-- (id)init:(enum chess_piece)piece :(enum piece_color)color {
+- (id)init:(chess_piece)piece :(piece_color)color {
     _piece = piece;
     _color = color;
     
     return self;
 }
 
-- (enum chess_piece)piece { return _piece; };
-- (enum piece_color)color { return _color; };
+- (chess_piece)piece { return _piece; };
+- (piece_color)color { return _color; };
 
 @end
 
@@ -100,6 +100,45 @@
 }
 - (NSColor *)get_tile_color:(int)col :(int)row {
     return ((col + (row % 2)) % 2 == 0)? _black_tile : _white_tile;
+}
+
+- (NSString *)get_FEN_char:(RHboard_tile*) tile {
+    NSString *ret = [RHchess_set chess_piece_toString:[tile piece]];
+    
+    if ([tile color] == WHITE)
+        return [ret uppercaseString];
+    else
+        return [ret lowercaseString];
+}
+
+- (NSString *)get_FEN_string {
+    NSString *fen_string = @"";
+    
+    for (int row = 7; row >= 0; --row) {
+        int blank_space = 0;
+
+        for (int col = 0; col < 8; ++col) {
+            RHboard_tile *curr_tile = _game_board[col][row];
+            
+            if (curr_tile != NULL) {
+                if (blank_space > 0)
+                    fen_string = [fen_string stringByAppendingFormat:@"%d", blank_space];
+                blank_space = 0;
+                
+                fen_string = [fen_string stringByAppendingString:[self get_FEN_char:curr_tile]];
+            }
+            else {
+                blank_space++;
+            }            
+        }
+        if (blank_space > 0)
+            fen_string = [fen_string stringByAppendingFormat:@"%d", blank_space];
+        if (row != 0)
+            fen_string = [fen_string stringByAppendingString:@"/"];
+
+    }
+    
+    return fen_string;
 }
 
 
