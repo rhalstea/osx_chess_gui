@@ -89,6 +89,7 @@
     }
     
     NSButton *source = _piece_source;
+    NSButton *destination = sender;
     
     [_piece_source setBordered:FALSE];
     _piece_source = NULL;
@@ -97,9 +98,11 @@
         return;
     }
     
-    [sender setImage:[source image]];
-    [source setImage:NULL];
+    RHboard_tile *source_tile = [_game_board get_board_tile:[self get_coordinates:source]];
     
+    [_game_board set_board_tile:source_tile :[self get_coordinates:destination]];
+    [_game_board set_board_tile:NULL :[self get_coordinates:source]];
+     
     [self draw_board];
 }
 
