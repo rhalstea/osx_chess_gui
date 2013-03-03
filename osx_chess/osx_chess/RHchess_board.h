@@ -82,4 +82,8 @@ typedef struct {
 
 - (void)set_board_tile:(RHboard_tile*)tile :(int)col :(int)row;
 - (void)set_board_tile:(RHboard_tile*)tile :(position) pos;
+
+- (void)move_tile:(int) src_col :(int)src_row :(int)dest_col :(int)dest_row;
+- (void)move_tile:(position) src :(position) dest;
+
 @end

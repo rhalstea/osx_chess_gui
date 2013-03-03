@@ -167,5 +167,42 @@
     [self set_board_tile:tile :pos.col :pos.row];
 }
 
+- (char)int_toCol:(int)pos {
+    return pos + 97;
+}
+
+- (void)move_tile:(int)src_col :(int)src_row :(int)dest_col :(int)dest_row {
+    RHboard_tile *tile = [self get_board_tile:src_col :src_row];
+    NSString *dest_pos = [NSString stringWithFormat:@"%c%d", [self int_toCol:dest_col], dest_row+1];
+    
+    // remove en_pessant pawn
+    if (tile.piece == PAWN && [dest_pos isEqualToString:_en_pessant]) {
+        if (tile.color == BLACK) // taking a white pawn
+            [self set_board_tile:NULL :dest_col :dest_row+1];
+        else   // taking a black pawn
+            [self set_board_tile:NULL :dest_col :dest_row-1];
+    }
+    
+    // mark en-pessant square when moving a pawn
+    if (tile.piece == PAWN) {
+        if (tile.color == WHITE && src_row == 1 && dest_row == 3)
+            _en_pessant = [NSString stringWithFormat:@"%c%d", [self int_toCol:src_col], 3];
+        else if (tile.color == BLACK && src_row == 6 && dest_row == 4)
+            _en_pessant = [NSString stringWithFormat:@"%c%d", [self int_toCol:src_col], 6];
+        else
+            _en_pessant = @"-";
+    }
+    else
+        _en_pessant = @"-";
+    
+    // FIXME: handle castling
+    [self set_board_tile:_game_board[src_col][src_row] :dest_col :dest_row];
+    [self set_board_tile:NULL :src_col :src_row];
+}
+
+- (void)move_tile:(position)src :(position)dest {
+    [self move_tile:src.col :src.row :dest.col :dest.row];
+}
+
 @end
 
