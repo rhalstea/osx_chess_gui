@@ -66,7 +66,7 @@ typedef struct {
     
     bool            _white_turn;
     NSString        *_castle_string;
-    NSString        *_en_pessant;
+    NSString        *_en_passant;
     int             _half_moves;
     int             _full_moves;
     

@@ -98,7 +98,7 @@
     
     _white_turn = true;
     _castle_string = @"KQkq";
-    _en_pessant = @"-";
+    _en_passant = @"-";
     _half_moves = 0;
     _full_moves = 1;
 }
@@ -154,7 +154,7 @@
     return [NSString stringWithFormat:@"%@ %@ %@ %@ %d %d", fen_string,
                                                             turn,
                                                             _castle_string,
-                                                            _en_pessant,
+                                                            _en_passant,
                                                             _half_moves,
                                                             _full_moves];
 }
@@ -175,25 +175,25 @@
     RHboard_tile *tile = [self get_board_tile:src_col :src_row];
     NSString *dest_pos = [NSString stringWithFormat:@"%c%d", [self int_toCol:dest_col], dest_row+1];
     
-    // remove en_pessant pawn
-    if (tile.piece == PAWN && [dest_pos isEqualToString:_en_pessant]) {
+    // remove en_passant pawn
+    if (tile.piece == PAWN && [dest_pos isEqualToString:_en_passant]) {
         if (tile.color == BLACK) // taking a white pawn
             [self set_board_tile:NULL :dest_col :dest_row+1];
         else   // taking a black pawn
             [self set_board_tile:NULL :dest_col :dest_row-1];
     }
     
-    // mark en-pessant square when moving a pawn
+    // mark en-passant square when moving a pawn
     if (tile.piece == PAWN) {
         if (tile.color == WHITE && src_row == 1 && dest_row == 3)
-            _en_pessant = [NSString stringWithFormat:@"%c%d", [self int_toCol:src_col], 3];
+            _en_passant = [NSString stringWithFormat:@"%c%d", [self int_toCol:src_col], 3];
         else if (tile.color == BLACK && src_row == 6 && dest_row == 4)
-            _en_pessant = [NSString stringWithFormat:@"%c%d", [self int_toCol:src_col], 6];
+            _en_passant = [NSString stringWithFormat:@"%c%d", [self int_toCol:src_col], 6];
         else
-            _en_pessant = @"-";
+            _en_passant = @"-";
     }
     else
-        _en_pessant = @"-";
+        _en_passant = @"-";
     
     // FIXME: handle castling
     [self set_board_tile:_game_board[src_col][src_row] :dest_col :dest_row];
