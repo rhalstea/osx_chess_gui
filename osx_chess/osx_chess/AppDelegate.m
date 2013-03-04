@@ -35,12 +35,23 @@
 }
 
 - (void)addTextArea:(NSView *)superview {
-    NSRect frame = NSMakeRect(32.0f, 32.0f, 512.0f, 128.0f);
-    NSTextView *text_box = [[NSTextView alloc] initWithFrame:frame];
+    NSRect frame1 = NSMakeRect(32.0f, 32.0f, 512.0f, 128.0f);
     
-    [superview addSubview:text_box];
+    NSScrollView *scroll_box = [[NSScrollView alloc] initWithFrame:frame1];
+    NSSize content_size = [scroll_box contentSize];
+    
+    [scroll_box setHasVerticalScroller:TRUE];
+    [scroll_box setHasHorizontalScroller:FALSE];
+    [scroll_box setBorderType:NSNoBorder];
+    [scroll_box setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 
-    [text_box insertText:@"Lets see if you can play Chess!"];
+    NSRect frame2 = NSMakeRect(32.0f, 32.0f, 512.0f, 128.0f);
+    _text_box = [[NSTextView alloc] initWithFrame:frame2];
+    [_text_box setMinSize:NSMakeSize(0.0, content_size.height)];
+    [_text_box setEditable:NO];
+    
+    [scroll_box setDocumentView:_text_box];
+    [superview addSubview:scroll_box];
 }
 
 @end

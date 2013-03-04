@@ -12,6 +12,7 @@
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
     RHchess_game    *_game;
+    NSTextView      *_text_box;
 }
 
 @property (assign) IBOutlet NSWindow *window;
