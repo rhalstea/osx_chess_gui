@@ -42,7 +42,7 @@
     
     _tile_width         = 64.0;
     _tile_height        = 64.0;
-    _border_bottom      = 32.0;
+    _border_bottom      = 160.0;
     _border_left        = 32.0;
     
     _piece_source       = NULL;
