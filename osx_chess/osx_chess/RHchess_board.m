@@ -33,6 +33,11 @@
 
 #import "RHchess_board.h"
 
+
+
+
+
+
 @implementation RHboard_tile
 
 - (id)init:(chess_piece)piece :(piece_color)color {
@@ -124,8 +129,9 @@
 }
 
 - (NSString *)get_FEN_string {
-    NSString *fen_string = @"";
     NSString *turn = (_white_turn)? @"w":@"b";
+    
+    NSString *fen_string = @"";
     for (int row = 7; row >= 0; --row) {
         int blank_space = 0;
 
@@ -136,18 +142,15 @@
                 if (blank_space > 0)
                     fen_string = [fen_string stringByAppendingFormat:@"%d", blank_space];
                 blank_space = 0;
-                
                 fen_string = [fen_string stringByAppendingString:[self get_FEN_char:curr_tile]];
             }
-            else {
+            else
                 blank_space++;
-            }            
         }
         if (blank_space > 0)
             fen_string = [fen_string stringByAppendingFormat:@"%d", blank_space];
         if (row != 0)
             fen_string = [fen_string stringByAppendingString:@"/"];
-
     }
     
     

@@ -29,47 +29,17 @@
     THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
     (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+*/
 
 #import <Foundation/Foundation.h>
-#import "RHchess_set.h"
-#import "RHchess_board.h"
-#import "RHuci_interface.h"
 
-@interface RHchess_game : NSObject {
-    NSView          *_parent;
-    RHchess_board   *_game_board;
-    RHchess_set     *_game_set;
-    RHuci_interface *_engine;
-    
-    // When playing the game a piece will need
-    // to be moved from one location to another
-    NSButton        *_piece_source;
-    NSButton        *_piece_destination;
-    
-    // Attributes for the GUI's board tiles
-    NSButton        *_game_buttons[8][8];
-    float           _tile_width;
-    float           _tile_height;
-    float           _border_bottom;
-    float           _border_left;
-    
-    // Engines message box
-    NSTextView *_engine_terminal;
+@interface RHuci_interface : NSObject {
+    NSTextView *_terminal;
 }
 
-- (id)create_game:(NSView *) parent :(RHchess_board *) game_board :(RHchess_set *) game_set;
-- (void)setup_standard_game;
-- (void)draw_board;
+- (id)init:(NSTextView *) terminal;
 
-// Modifier functions
-- (void)set_tile_width:(float)width;
-- (void)set_tile_height:(float)height;
-- (void)set_border_bottom:(float)offset;
-- (void)set_border_left:(float)offset;
-
-// Accessor functions
-- (float)get_board_width;
-- (float)get_board_height;
+- (void)start_engine;
+- (void)analize_position:(id) fen_string;
 
 @end

@@ -9,7 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import "RHchess_game.h"
 
-
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
     RHchess_game    *_game;
     NSTextView      *_text_box;

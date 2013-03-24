@@ -49,6 +49,10 @@
     _piece_destination  = NULL;
     
     [self create_board_tiles];
+    [self create_engine_terminal];
+    
+    _engine = [[RHuci_interface alloc] init:_engine_terminal];
+    [_engine start_engine];
     
     return self;
 }
@@ -101,9 +105,12 @@
     [_game_board move_tile:[self get_coordinates:source] :[self get_coordinates:destination]];
     [self draw_board];
 
+    [_engine analize_position:[_game_board get_FEN_string]];
+    /*
     NSAlert *alert = [[NSAlert alloc] init];
     [alert setMessageText:[_game_board get_FEN_string]];
     [alert runModal];
+     */
 }
 
 - (position) get_coordinates:(NSButton *) source {
@@ -152,6 +159,26 @@
             [_game_buttons[col][row].cell setBackgroundColor:[_game_board get_tile_color:col :row]];
         }
     }
+}
+
+- (void)create_engine_terminal {
+    NSRect frame1 = NSMakeRect(32.0f, 32.0f, 512.0f, 128.0f);
+    
+    NSScrollView *scroll_box = [[NSScrollView alloc] initWithFrame:frame1];
+    NSSize content_size = [scroll_box contentSize];
+    
+    [scroll_box setHasVerticalScroller:TRUE];
+    [scroll_box setHasHorizontalScroller:FALSE];
+    [scroll_box setBorderType:NSNoBorder];
+    [scroll_box setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    
+    NSRect frame2 = NSMakeRect(32.0f, 32.0f, 512.0f, 128.0f);
+    _engine_terminal = [[NSTextView alloc] initWithFrame:frame2];
+    [_engine_terminal setMinSize:NSMakeSize(0.0, content_size.height)];
+    [_engine_terminal setEditable:NO];
+    
+    [scroll_box setDocumentView:_engine_terminal];
+    [_parent addSubview:scroll_box];
 }
 
 @end
