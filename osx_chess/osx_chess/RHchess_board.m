@@ -177,6 +177,12 @@
 - (void)move_tile:(int)src_col :(int)src_row :(int)dest_col :(int)dest_row {
     RHboard_tile *tile = [self get_board_tile:src_col :src_row];
     NSString *dest_pos = [NSString stringWithFormat:@"%c%d", [self int_toCol:dest_col], dest_row+1];
+
+    
+    if (tile.color == WHITE)
+        _white_turn = false;
+    else
+        _white_turn = true;
     
     // remove en_passant pawn
     if (tile.piece == PAWN && [dest_pos isEqualToString:_en_passant]) {

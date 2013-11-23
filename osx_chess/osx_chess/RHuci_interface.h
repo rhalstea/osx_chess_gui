@@ -34,12 +34,26 @@
 #import <Foundation/Foundation.h>
 
 @interface RHuci_interface : NSObject {
-    NSTextView *_terminal;
+    bool            _is_ready;
+    
+    NSTextView      *_terminal;
+    
+    NSFileHandle    *_out_stream;
+    NSFileHandle    *_err_stream;
+    NSFileHandle    *_in_stream;
 }
 
 - (id)init:(NSTextView *) terminal;
+- (void) start_engine:(NSPort*) port;
+- (void) monitor_engine_output;
+- (void) handle_output_line: (NSString*) line;
 
-- (void)start_engine;
-- (void)analize_position:(id) fen_string;
+- (void) send_uci_request;
+- (void) send_ready_request;
+
+- (bool) is_ready;
+
+// events
+- (void)analize_position:(NSNotification *) notice;
 
 @end

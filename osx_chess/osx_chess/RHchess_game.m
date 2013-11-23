@@ -52,7 +52,9 @@
     [self create_engine_terminal];
     
     _engine = [[RHuci_interface alloc] init:_engine_terminal];
-    [_engine start_engine];
+    [NSThread detachNewThreadSelector:@selector(start_engine:)
+                             toTarget:_engine
+                           withObject:nil];
     
     return self;
 }
@@ -105,18 +107,18 @@
     [_game_board move_tile:[self get_coordinates:source] :[self get_coordinates:destination]];
     [self draw_board];
 
-    [_engine analize_position:[_game_board get_FEN_string]];
-    /*
-    NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText:[_game_board get_FEN_string]];
-    [alert runModal];
-     */
+    NSString *pos = [_game_board get_FEN_string];
+    NSDictionary *info = [NSDictionary dictionaryWithObject:pos
+                                                     forKey:@"position"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"position_update"
+                                                        object:self
+                                                      userInfo:info];
 }
 
 - (position) get_coordinates:(NSButton *) source {
     position ret;
 
-    // FIXME: thier is a better way than brute force
+    // FIXME: their is a better way than brute force
     for(int row = 0; row < 8; ++row)
         for (int col = 0; col < 8; ++col)
             if (source == _game_buttons[col][row]) {
